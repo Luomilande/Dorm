@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DormDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AdminInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="255" />
+    <Property Name="JobNumber" Type="bigint" />
+    <Property Name="Account" Type="nchar" MaxLength="10" />
+    <Property Name="Password" Type="varchar" MaxLength="255" />
+    <Property Name="PhoneNumber" Type="bigint" />
+    <Property Name="Remarks" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="DormInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Broom_Max" Type="int" />
+    <Property Name="Broom" Type="int" />
+    <Property Name="Mop_Max" Type="int" />
+    <Property Name="Mop" Type="int" />
+    <Property Name="Trash_Max" Type="int" />
+    <Property Name="Trash" Type="int" />
+    <Property Name="Water_Max" Type="int" />
+    <Property Name="Water" Type="int" />
+    <Property Name="DateTime" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="NoticeInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Notice" Type="varchar" MaxLength="255" />
+    <Property Name="DateTime" Type="varchar" MaxLength="255" />
+    <Property Name="Title" Type="varchar" MaxLength="255" />
+    <Property Name="Name" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="StudentInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="255" />
+    <Property Name="StudentId" Type="bigint" />
+    <Property Name="Class" Type="varchar" MaxLength="255" />
+    <Property Name="DormId" Type="int" />
+  </EntityType>
+  <EntityType Name="VisitInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentId" Type="int" />
+    <Property Name="DateTime" Type="varchar" MaxLength="255" />
+    <Property Name="InOut" Type="int" />
+    <Property Name="StudentName" Type="varchar" MaxLength="255" />
+    <Property Name="Remarks" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityContainer Name="DormDBModelStoreContainer">
+    <EntitySet Name="AdminInfo" EntityType="Self.AdminInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DormInfo" EntityType="Self.DormInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NoticeInfo" EntityType="Self.NoticeInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentInfo" EntityType="Self.StudentInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VisitInfo" EntityType="Self.VisitInfo" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

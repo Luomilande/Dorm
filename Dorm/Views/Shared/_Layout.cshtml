@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>宿舍管理系统</title>
+    <link rel="icon" href="~/img/ico.png">
+    <!-- Bootstrap Styles-->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="~/Content/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="~/Content/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link href="~/Content/Chart.css" rel="stylesheet" />
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Home/Index"><i class="fa fa-gear"></i> <strong>宿舍管理系统</strong></a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="/Home/Admininfo"><i class="fa fa-user fa-fw"></i> 管理员信息</a>
+                        </li>
+                        <li>
+                            <a href="/Home/DormMan"><i class="fa fa-gear fa-fw"></i> 住宿管理</a>
+                        </li>
+                        <li class="divider"></li>
+                        @*<li>
+                                <a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>*@
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!---导航栏↑--->
+        <!--左导航栏↓-->
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <li>
+                        <a id="node1" href="/Home/Index"><i class="fa fa-dashboard"></i> 基本信息</a>
+                    </li>
+                    <li>
+                        <a id="node2" href="/Home/OutInInput"><i class="fa fa-desktop"></i>出入信息登记管理</a>
+                    </li>
+                    <li>
+                        <a id="node3" href="/Home/Admininfo"><i class="fa fa-bar-chart-o"></i>管理员基本信息管理</a>
+                    </li>
+                    <li>
+                        <a id="node4" href="/Home/StudentInfo"><i class="fa fa-qrcode"></i>学生信息管理</a>
+                    </li>
+                    <li>
+                        <a id="node5" href="/Home/DormInfo"><i class="fa fa-table"></i>宿舍基本信息管理</a>
+                    </li>
+                    <li>
+                        <a id="node6" href="/Home/DormMan"><i class="fa fa-edit"></i> 住宿管理 </a>
+                    </li>
+                    @*<li>
+                            <a href="empty.html"><i class="fa fa-fw fa-file"></i>退出</a>
+                        </li>*@
+                </ul>
+
+            </div>
+        </nav>
+        <!--左导航栏↑-->
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <!--内容-->
+            @RenderBody()
+            <!--内容end-->
+            <footer>
+                <p>Copyright &copy; 2016.Company 个人所有</p>
+            </footer>
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @*@RenderSection("scripts", required: false)*@
+    <!-- jQuery Js
+    <script src="assets/js/jquery-1.10.2.js"></script> -->
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/RequestMethod.js"></script>
+    @*<!-- Bootstrap Js -->*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Js -->
+    <script src="~/Scripts/jquery.metisMenu.js"></script>
+    <!-- Morris Chart Js -->
+    <script src="~/Scripts/morris/raphael-2.1.0.min.js"></script>
+    <script src="~/Scripts/morris.js"></script>
+
+    <script src="~/Scripts/easypiechart.js"></script>
+    <script src="~/Scripts/easypiechart-data.js"></script>
+
+    <script src="~/Scripts/Lightweight-Chart/jquery.chart.js"></script>
+
+    <!-- Custom Js -->
+    <script src="~/Scripts/Chart.bundle.min.js"></script>
+    <script src="~/Scripts/Chart.min.js"></script>
+    <!--Test-->
+    <script src="~/Scripts/axios.min.js"></script>
+    <script>
+        $("#sideNav").click(function () {
+            if ($(this).hasClass('closed')) {
+                $('.navbar-side').animate({ left: '0px' });
+                $(this).removeClass('closed');
+                $('#page-wrapper').animate({ 'margin-left': '260px' });
+            }
+            else {
+                $(this).addClass('closed');
+                $('.navbar-side').animate({ left: '-260px' });
+                $('#page-wrapper').animate({ 'margin-left': '0px' });
+            }
+        });
+    </script>
+</body>
+
+</html>

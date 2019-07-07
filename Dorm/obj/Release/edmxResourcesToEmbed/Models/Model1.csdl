@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DormDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DormDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="VisitInfo" EntityType="DormDBModel.VisitInfo" />
+    <EntitySet Name="StudentInfo" EntityType="DormDBModel.StudentInfo" />
+    <EntitySet Name="NoticeInfo" EntityType="DormDBModel.NoticeInfo" />
+    <EntitySet Name="DormInfo" EntityType="DormDBModel.DormInfo" />
+    <EntitySet Name="AdminInfo" EntityType="DormDBModel.AdminInfo" />
+  </EntityContainer>
+  <EntityType Name="VisitInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentId" Type="Int32" />
+    <Property Name="DateTime" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="InOut" Type="Int32" />
+    <Property Name="StudentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="StudentInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="StudentId" Type="Int64" />
+    <Property Name="Class" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DormId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="NoticeInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Notice" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DateTime" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="DormInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Broom" Type="Int32" />
+    <Property Name="Mop" Type="Int32" />
+    <Property Name="Trash" Type="Int32" />
+    <Property Name="Water" Type="Int32" />
+    <Property Name="Broom_Max" Type="Int32" />
+    <Property Name="Mop_Max" Type="Int32" />
+    <Property Name="Trash_Max" Type="Int32" />
+    <Property Name="Water_Max" Type="Int32" />
+    <Property Name="DateTime" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="AdminInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="JobNumber" Type="Int64" />
+    <Property Name="Account" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="PhoneNumber" Type="Int64" />
+    <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

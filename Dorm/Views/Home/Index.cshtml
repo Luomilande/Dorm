@@ -1,0 +1,341 @@
+﻿
+<div id="page-inner">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">
+                宿舍管理系统 <small>用于宿舍管理</small>
+            </h1>
+        </div>
+    </div>
+
+
+    <!-- /. ROW  -->
+
+    <div class="row">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="panel panel-primary text-center no-boder bg-color-green green">
+                <div class="panel-left pull-left green">
+                    <i class="fa fa-eye fa-5x"></i>
+
+                </div>
+                <div class="panel-right" id="VisitNumber">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="panel panel-primary text-center no-boder bg-color-blue">
+                <div class="panel-left pull-left blue">
+                    <i class="glyphicon glyphicon-wrench  fa-5x"></i>
+                </div>
+
+                <div class="panel-right" id="ToolNumber">
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="panel panel-primary text-center no-boder bg-color-red">
+                <div class="panel-left pull-left red">
+                    <i class="fa fa-comments fa-5x"></i>
+
+                </div>
+                <div class="panel-right" id="NoticeNumber">
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="panel panel-primary text-center no-boder bg-color-brown">
+                <div class="panel-left pull-left brown">
+                    <i class="fa fa-users fa-5x"></i>
+
+                </div>
+                <div class="panel-right" id="LiveNumber">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    出入情况
+                </div>
+                <div class="panel-body">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    信息公告
+                </div>
+                <div class="panel-body" id="Noticeinfo">
+                    @*<div class="panel panel-primary" id="Noticeinfo">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">公告</h3>
+                            </div>
+                            <div class="panel-body">
+                                回收旧彩电，旧空调，旧冰箱。
+                            </div>
+                        </div>
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">公告</h3>
+                            </div>
+                            <div class="panel-body">
+                                关于<b>张飞</b>同学夜不归宿，通知警告！
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">公告</h3>
+                            </div>
+                            <div class="panel-body">
+                                关于<b>关羽</b>同学夜不归宿，通知警告！
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-3" style="padding:0;">
+            <div class="col-xs-6 col-md-3" style="width: 100%;">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                        <h4>扫把</h4>
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3" style="padding:0;">
+            <div class="col-xs-6 col-md-3" style="width: 100%;">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                        <h4>拖把</h4>
+                        <canvas id="myChart3"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3" style="padding:0;">
+            <div class="col-xs-6 col-md-3" style="width: 100%;">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                        <h4>垃圾桶</h4>
+                        <canvas id="myChart4"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3" style="padding:0;">
+            <div class="col-xs-6 col-md-3" style="width: 100%;">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                        <h4>桶装水</h4>
+                        <canvas id="myChart5"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+
+        $("#node1").addClass("active-menu");
+        axios.all([
+            AxiosGet("/Home/TestInfo", null, testinfo),
+            AxiosGet("/Home/Totaldata", null, totaldata),
+            AxiosGet("/DormMan/GetTool", null, donrminfo),
+            AxiosGet("/DormMan/GetListNotice", null, getlist)
+        ])
+  .then(axios.spread(function (acct, perms) {
+      // 两个请求现在都执行完成
+      console.log("3个请求完毕!");
+  }));
+    }
+    function testinfo(data1) {
+        console.log(data1);
+           var ctx = document.getElementById('myChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: [data1[0].DateTime, data1[1].DateTime, data1[2].DateTime, data1[3]
+                            .DateTime, data1[4].DateTime, data1[5].DateTime
+                        ],
+                        datasets: [{
+                            label: "外出",
+                            pointBackgroundColor: "rgba(220,220,220,1)", //点颜色
+                            backgroundColor: "	rgba(50,208,136,0.2)", //线内填充色
+                            borderColor: "	rgba(50,208,136,1)", //线颜色
+                            data: [data1[0].InNumber, data1[1].InNumber, data1[2].InNumber,
+                            data1[3].InNumber, data1[4].InNumber, data1[5].InNumber
+                            ]
+                        }, {
+                            label: "进入",
+                            pointBackgroundColor: "rgba(151,187,205,1)", //点颜色
+                            backgroundColor: "rgba(151,187,205,0.2)", //线内填充色
+                            borderColor: "rgba(151,187,205,1)", //线颜色
+                            data: [data1[0].OutNumber, data1[1].OutNumber, data1[2]
+                                .OutNumber, data1[3].OutNumber, data1[4].OutNumber,
+                            data1[5].OutNumber
+                            ],
+                        }]
+                    },
+                    options: {}
+                });
+    }
+    function totaldata(data) {
+        console.log(data);
+        $("#VisitNumber").append(
+            `<h3>${data.VisitNumber}</h3><strong>访问人数</strong>`
+        )
+        $("#ToolNumber").append(
+            `<h3>${data.ToolNumber}</h3><strong>工具数</strong>`
+        )
+        $("#NoticeNumber").append(
+            `<h3>${data.NoticeNumber}</h3><strong>信息公告</strong>`
+        )
+        $("#LiveNumber").append(
+            `<h3>${data.LiveNumber}</h3><strong>居住总数</strong>`
+        )
+    }
+      function donrminfo(data) {
+
+        var ctx2 = document.getElementById("myChart2").getContext("2d");
+        var ctx3 = document.getElementById("myChart3").getContext("2d");
+        var ctx4 = document.getElementById("myChart4").getContext("2d");
+        var ctx5 = document.getElementById("myChart5").getContext("2d");
+
+        var doughnutData1 = {
+            labels: [
+                "剩余",
+                "使用"
+            ],
+            datasets: [
+                {
+                    data: [(data.Broom_Max - data.Broom),data.Broom],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ]
+                }]
+        };
+        var DoughnutChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: doughnutData1,
+            responsive: true
+        });
+
+        var doughnutData2 = {
+            labels: [
+                "剩余",
+                "使用"
+            ],
+            datasets: [
+                {
+                    data: [ (data.Mop_Max - data.Mop),data.Mop],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ]
+                }]
+        };
+        var DoughnutChart = new Chart(ctx3, {
+            type: 'doughnut',
+            data: doughnutData2,
+            responsive: true
+        });
+
+        var doughnutData3 = {
+            labels: [
+                "剩余",
+                "使用"
+            ],
+            datasets: [
+                {
+                    data: [(data.Trash_Max - data.Trash),data.Trash],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ]
+                }]
+        };
+        var DoughnutChart = new Chart(ctx4, {
+            type: 'doughnut',
+            data: doughnutData3,
+            responsive: true
+        });
+
+        var doughnutData4 = {
+            labels: [
+                "剩余",
+                "使用"
+            ],
+            datasets: [
+                {
+                    data: [(data.Water_Max - data.Water),data.Water],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ]
+                }]
+        };
+        var DoughnutChart = new Chart(ctx5, {
+            type: 'doughnut',
+            data: doughnutData4,
+            responsive: true
+        });
+
+    }
+    function getlist(data) {
+        console.log(data);
+        $("#Noticeinfo").empty();
+        $.each(data, function (i, item) {
+            $("#Noticeinfo").append(
+                `
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="col-lg-6"><h3 class="panel-title">公告：${item.Title}</div> <div style="text-align:right">时间:${item.DateTime}</div></h3>
+                    </div>
+                    <div class="panel-body">${item.Notice}
+                    </div>
+                </div>`
+            )
+        })
+    }
+</script>

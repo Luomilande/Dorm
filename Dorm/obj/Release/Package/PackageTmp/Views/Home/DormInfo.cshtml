@@ -1,0 +1,224 @@
+﻿<div id="page-inner">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">
+                宿舍信息 <small>信息登记管理</small>
+            </h1>
+        </div>
+    </div>
+    <!-- /. ROW  -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-12">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <div class="alert alert-success" style="position:absolute;display: none;" role="alert" id="tipok">信息提示:操作成功！</div>
+                    <div class="alert alert-danger" style="position:absolute;display: none;" role="alert" id="tipno">信息提示:操作失败！</div>
+                </div>
+                <div class="col-lg-4"></div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    宿舍信息修改
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input class="form-control" placeholder="姓名" id="StudentName" readonly>
+                                    <!-- <p class="help-block">Example block-level help text here.</p> -->
+                                </div>
+                                <div class="form-group">
+                                    <label>学号</label>
+                                    <input class="form-control" placeholder="学号" id="StudentID"readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>班级</label>
+                                    <input class="form-control" placeholder="班级" id="StudentClass"  readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>宿舍号</label>
+                                    <input class="form-control" placeholder="宿舍号"  id="StudentDormID">
+                                </div>
+                                <div class="form-group">
+                                    <label>日期</label>
+                                    <p class="form-control-static">当前时间：</p><b id="datetime" style="color: #337ab7;"></b>
+                                </div>
+                                <div class="form-group">
+                                    <label>备注：</label>
+                                    <textarea class="form-control" rows="6" placeholder="需要备注则备注" id="Remarks" readonly></textarea>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="StudentAdd()">保存</button>
+                                <button type="button" class="btn btn-warning" onclick="Reset()">重置</button>
+                            </form>
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+                        <!-- /.col-lg-6 (nested) -->
+                        <div class="col-lg-6">
+                            <div class="col-lg-12"><label>搜索</label></div>
+                            <div class="form-group col-lg-6">
+                                <input type="email" class="form-control" id="Search" placeholder="输入宿舍号">
+                            </div>
+                            <div class="form-group  col-lg-6"><button type="submit" class="btn btn-primary" onclick="search()">搜  索</button></div>
+
+                            <div class="col-lg-12">
+                                <label>学生概况列表</label>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>姓名</th>
+                                            <th>学号</th>
+                                            <th>班级</th>
+                                            <th>宿舍</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="test"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        $("#node5").addClass("active-menu");
+
+        var myDate = new Date;
+        var year = myDate.getFullYear(); //获取当前年
+        var mon = myDate.getMonth() + 1; //获取当前月
+        var date = myDate.getDate(); //获取当前日
+        var h = myDate.getHours();//获取当前小时数(0-23)
+        var m = myDate.getMinutes();//获取当前分钟数(0-59)
+        var s = myDate.getSeconds();//获取当前秒
+        $("#datetime").text(year + "年" + mon + "月" + date + "日," + h + ":" + m + ":" + s);
+
+        AxiosGet("/DormMan/GetList", null, getlist);
+    }
+
+        //添加组
+    function StudentAdd() {
+
+        var id = $("#StudentID").val();//学号
+        var dormid = $("#StudentDormID").val();//宿舍
+        if (id != "") {
+            var obj = new Object();
+            obj.StudentId = id;
+            obj.DormId = dormid;
+            AxiosPost("/DormMan/DormAdd", obj, addtip);
+            Reset();
+        } else {
+            $("#tipno").fadeIn("slow");
+            setTimeout(function () {($('#tipno').fadeOut()); }, 1500);
+        }
+
+    }
+    function addtip(data) {
+        if (data.message == 1) {
+            $("#tipok").fadeIn("slow");
+            setTimeout(function () { $('#tipok').fadeOut(); }, 1500);
+        } else {
+            $("#tipno").fadeIn("slow");
+            setTimeout(function () {($('#tipno').fadeOut()); }, 1500);
+        }
+        AxiosGet("/DormMan/GetList", null, getlist);
+    }
+    //添加组end
+
+    //搜索组
+    function search() {
+        var id = $("#Search").val();//学号
+        if (id != "") {
+            //var obj = new Object();
+            //obj.DormId = id;
+            var obj = {
+                DormId:id
+            }
+            AxiosPost("/DormMan/Search", obj, getlist);
+        } else {
+            AxiosGet("/DormMan/GetList", null, getlist);
+        }
+
+    }
+    //搜索组end
+
+    //修改组
+    function modify(id) {
+
+        var obj = new Object();
+        obj.StudentId = id;
+        Reset();
+        AxiosPost("/DormMan/GetInfo", obj, getinfo);
+    }
+    function getinfo(data) {
+
+        console.log(data);
+        $("#StudentName").val(data.Name);//管理员姓名
+        $("#StudentID").val(data.StudentId);//管理员学号
+        $("#StudentClass").val(data.Class);//班级
+        $("#StudentDormID").val(data.DormId);//宿舍
+    }
+    //修改组end
+
+    //删除组
+    function deleteinfo(id) {
+        var obj = new Object();
+        obj.StudentId = id;
+        AxiosPost("/DormMan/DeleteInfo", obj, deletetip);
+    }
+    function deletetip(data) {
+if (data.message == 1) {
+            $("#tipok").fadeIn("slow");
+            setTimeout(function () { $('#tipok').fadeOut(); }, 1500);
+        } else {
+            $("#tipno").fadeIn("slow");
+            setTimeout(function () {($('#tipno').fadeOut()); }, 1500);
+        }
+        AxiosGet("/DormMan/GetList", null, getlist);
+    }
+    //删除组end
+        //列表加载组
+    function getlist(data) {
+        $("#test").empty();
+        var jsq = 1;
+        $.each(data, function (i, item) {
+            $("#test").append(
+                `<tr>
+             <th scope="row">${jsq}</th>
+             <td>${item.Name}</td>
+             <td>${item.StudentId}</td>
+             <td>${item.Class}</td>
+             <td>${item.DormId}</td>
+             <td>
+               <div class="bs-example" data-example-id="btn-variants">
+                  <button type="button" class="btn btn-success" value="${item.StudentId}" onclick="modify(${item.StudentId})">修改</button>
+                </div>
+              </td>
+         </tr>`
+            )
+            jsq++;
+        })
+
+    }
+
+    //列表加载组end
+    function Reset() {
+
+        $("#StudentName").val("");//学生姓名
+        $("#StudentID").val("");//学生学号
+        $("#StudentClass").val("");//班级
+        $("#StudentDormID").val("");//宿舍
+        $("#Remarks").val("");//备注
+    }
+
+</script>

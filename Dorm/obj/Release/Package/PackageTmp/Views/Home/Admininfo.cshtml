@@ -1,0 +1,279 @@
+﻿<div id="page-inner">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">
+                管理员信息 <small>信息登记管理</small>
+            </h1>
+        </div>
+    </div>
+    <!-- /. ROW  -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-12">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <div class="alert alert-success" style="position:absolute;display: none;" role="alert" id="tipok">信息提示:操作成功！</div>
+                    <div class="alert alert-danger" style="position:absolute;display: none;" role="alert" id="tipno">信息提示:操作失败！</div>
+                </div>
+                <div class="col-lg-4"></div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    管理员信息填写/修改
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input class="form-control" placeholder="姓名(*必填)" id="AdminName">
+                                    <!-- <p class="help-block">Example block-level help text here.</p> -->
+                                </div>
+                                <div class="form-group">
+                                    <label>工号</label>
+                                    <input class="form-control" placeholder="工号(*必填,工号存在则为修改信息)" id="AdminID" type="number">
+                                </div>
+                                <div class="form-group">
+                                    <label>联系方式</label>
+                                    <input class="form-control" placeholder="联系方式(*必填)" id="AdminPhone" type="number">
+                                </div>
+                                <div class="form-group">
+                                    <label>密码</label>
+                                    <input class="form-control" placeholder="密码(*必填，修改密码则不用填)" id="psw1" type="password">
+                                </div>
+                                <div class="form-group">
+                                    <label>确认密码</label>
+                                    <input class="form-control" placeholder="确认密码(*必填，修改密码则不用填)" id="psw2" type="password"> 
+                                </div>
+                                <div class="form-group">
+                                    <label>日期</label>
+                                    <p class="form-control-static">当前时间：<b id="datetime" style="color: #337ab7;"></b></p>
+                                </div>
+                                <div class="form-group">
+                                    <label>备注：</label>
+                                    <textarea class="form-control" rows="6" placeholder="需要备注则备注" id="Remarks"></textarea>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="AdminAdd()">保存</button>
+                                <button type="button" class="btn btn-warning" onclick="Reset()">重置</button>
+                            </form>
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+                        <!-- /.col-lg-6 (nested) -->
+                        <div class="col-lg-6">
+                            <div class="col-lg-12"><label>搜索</label></div>
+                            <div class="form-group col-lg-6">
+                                <input type="number" class="form-control" id="Search" placeholder="输入工号">
+                            </div>
+                            <div class="form-group  col-lg-6"><button type="submit" class="btn btn-primary" onclick="search()">搜  索</button></div>
+
+                            <div class="col-lg-12">
+                                <label>管理员概况列表</label>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>姓名</th>
+                                            <th>工号</th>
+                                            <th>联系号码</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="test"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">密码确认</h4>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">密码:</label>
+                        <input type="text" class="form-control" id="Password">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="test2()">确认</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        $("#node3").addClass("active-menu");
+
+        var myDate = new Date;
+        var year = myDate.getFullYear(); //获取当前年
+        var mon = myDate.getMonth() + 1; //获取当前月
+        var date = myDate.getDate(); //获取当前日
+        var h = myDate.getHours();//获取当前小时数(0-23)
+        var m = myDate.getMinutes();//获取当前分钟数(0-59)
+        var s = myDate.getSeconds();//获取当前秒
+        $("#datetime").text(year + "年" + mon + "月" + date + "日," + h + ":" + m + ":" + s);
+
+        AxiosGet("/AdminMan/GetList", null, getlist);
+    }
+    //添加组
+    function AdminAdd() {
+
+        var name = $("#AdminName").val();//管理员姓名
+        var id = $("#AdminID").val();//管理员学号
+        var PhoneNumber = $("#AdminPhone").val();//号码
+        var psw1 = $("#psw1").val();
+        var psw2 = $("#psw2").val();
+        var Remarks = $("#Remarks").val();//备注
+        var obj = new Object();
+        if (psw1 == psw2 && psw1 != "" && psw2 != "") {
+        obj.Password = psw1;
+        obj.Name = name;
+        obj.JobNumber = id;
+        obj.PhoneNumber = PhoneNumber;
+        obj.Remarks = Remarks;
+         console.log("添加的信息:" + obj.PhoneNumber);
+        AxiosPost("/AdminMan/AdminAdd", obj, addtip);
+        Reset();
+        }
+        else {
+        $("#tipno").fadeIn("slow");
+        setTimeout(function () { $('#tipno').fadeOut(); }, 1500);
+        }
+    }
+    function addtip() {
+        $("#tipok").fadeIn("slow");
+        setTimeout(function () { $('#tipok').fadeOut(); }, 1500);
+        AxiosGet("/AdminMan/GetList", null, getlist);
+    }
+    //添加组end
+    //修改组
+    function modify(id) {
+
+        var obj = new Object();
+        obj.JobNumber = id;
+        AxiosPost("/AdminMan/Search", obj, getinfo);
+
+    }
+    function getinfo(data) {
+        console.log(data);
+        $("#AdminName").val(data.Name);//管理员姓名
+        $("#AdminID").val(data.JobNumber);//管理员学号
+        $("#AdminPhone").val(data.PhoneNumber);//号码
+        $("#psw1").val("不允许修改密码");//密码重置
+        $("#psw2").val("不允许修改密码");//密码重置
+        $("#Remarks").val(data.Remarks);//备注
+    }
+    //修改组end
+    //删除组
+    function deleteinfo(id) {
+        var obj = new Object();
+        obj.JobNumber = id;
+        AxiosPost("/AdminMan/DeleteInfo", obj, deletetip);
+    }
+    function deletetip(data) {
+        if (data.message == 1) {
+            $("#tipok").fadeIn("slow");
+            setTimeout(function () { $('#tipok').fadeOut(); }, 1500);
+        } else {
+            $("#tipno").fadeIn("slow");
+            setTimeout(function () { ($('#tipno').fadeOut()); }, 1500);
+        }
+        AxiosGet("/AdminMan/GetList", null, getlist);
+    }
+    //删除组end
+    //搜索组
+    function search() {
+        var id = $("#Search").val();//管理员工号
+        if (id != "") {
+            var obj = new Object();
+            obj.JobNumber = id;
+            AxiosPost("/AdminMan/Search", obj, getlist2);
+        } else {
+            AxiosGet("/AdminMan/GetList", null, getlist);
+        }
+
+    }
+    function test(data) {
+        $('#exampleModal').data('pwd',data);
+    }
+    function test2() {
+        var Password = $("#Password").val();
+        var ID = $("#exampleModal").data("pwd");
+        var obj = new Object();
+        obj.Password = Password;
+        obj.JobNumber = ID;
+        $("#Password").val("");
+        AxiosPost("/AdminMan/DeleteInfo", obj, deletetip);
+       
+    }
+    //搜索组end
+    function getlist(data) {
+        $("#test").empty();
+        var jsq = 1;
+        $.each(data, function (i, item) {
+            $("#test").append(
+                `<tr>
+                         <th scope="row">${jsq}</th>
+                         <td>${item.Name}</td>
+                         <td>${item.JobNumber}</td>
+                         <td>${item.PhoneNumber}</td>
+                         <td>
+                           <div class="bs-example" data-example-id="btn-variants">
+                              <button type="button" class="btn btn-success" value="${item.JobNumber}" onclick="modify(${item.JobNumber})">修改</button>
+                              <button type="button" class="btn btn-danger"  value="${item.JobNumber}" data-toggle="modal" data-target="#exampleModal" onclick="test(${item.JobNumber})" >删除</button>
+                            </div>
+                          </td>
+                     </tr>`
+            )
+            jsq++;
+        })
+    }
+    function getlist2(item) {
+        // onclick="deleteinfo(${item.JobNumber})"
+        $("#test").empty();
+        $("#test").append(
+            `<tr>
+                         <th scope="row">1</th>
+                         <td>${item.Name}</td>
+                         <td>${item.JobNumber}</td>
+                         <td>${item.PhoneNumber}</td>
+                         <td>
+                           <div class="bs-example" data-example-id="btn-variants">
+                              <button type="button" class="btn btn-success" value="${item.JobNumber}" onclick="modify(${item.JobNumber})">修改</button>
+                              <button type="button" class="btn btn-danger"  value="${item.JobNumber}"  data-toggle="modal" data-target="#exampleModal" >删除</button>
+                            </div>
+                          </td>
+                     </tr>`
+        )
+    }
+    function Reset() {
+        $("#AdminName").val("");//学生姓名
+        $("#AdminID").val("");//学生学号
+        $("#Remarks").val("");//备注
+        $("#AdminPhone").val("");//号码
+        $("#Remarks").val("");//备注
+        $("#psw1").val("");
+         $("#psw2").val("");
+    }
+</script>

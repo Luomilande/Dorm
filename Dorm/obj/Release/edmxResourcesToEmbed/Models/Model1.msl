@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DormDBModelStoreContainer" CdmEntityContainer="DormDBEntities">
+    <EntitySetMapping Name="VisitInfo">
+      <EntityTypeMapping TypeName="DormDBModel.VisitInfo">
+        <MappingFragment StoreEntitySet="VisitInfo">
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+          <ScalarProperty Name="InOut" ColumnName="InOut" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentInfo">
+      <EntityTypeMapping TypeName="DormDBModel.StudentInfo">
+        <MappingFragment StoreEntitySet="StudentInfo">
+          <ScalarProperty Name="DormId" ColumnName="DormId" />
+          <ScalarProperty Name="Class" ColumnName="Class" />
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NoticeInfo">
+      <EntityTypeMapping TypeName="DormDBModel.NoticeInfo">
+        <MappingFragment StoreEntitySet="NoticeInfo">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Notice" ColumnName="Notice" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DormInfo">
+      <EntityTypeMapping TypeName="DormDBModel.DormInfo">
+        <MappingFragment StoreEntitySet="DormInfo">
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Water_Max" ColumnName="Water_Max" />
+          <ScalarProperty Name="Trash_Max" ColumnName="Trash_Max" />
+          <ScalarProperty Name="Mop_Max" ColumnName="Mop_Max" />
+          <ScalarProperty Name="Broom_Max" ColumnName="Broom_Max" />
+          <ScalarProperty Name="Water" ColumnName="Water" />
+          <ScalarProperty Name="Trash" ColumnName="Trash" />
+          <ScalarProperty Name="Mop" ColumnName="Mop" />
+          <ScalarProperty Name="Broom" ColumnName="Broom" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminInfo">
+      <EntityTypeMapping TypeName="DormDBModel.AdminInfo">
+        <MappingFragment StoreEntitySet="AdminInfo">
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="JobNumber" ColumnName="JobNumber" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
