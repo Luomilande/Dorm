@@ -11,7 +11,7 @@
   * 宿舍基本信息管理：学生宿舍修改
   * 住宿管理：宿舍工具信息以及公告信息修改
  * #### 简介：
-    * 项目实际上进行了`前后端分离`，在前端中`RequestMethod.js`JS文件夹中，采用了axios.js来进行Pst与Get请求
+    * 项目实际上进行了`前后端分离`，在前端中`RequestMethod.js`JS文件夹中，采用了axios.js来进行Post与Get请求
       通过`AxiosGet`与`AxiosPost`分别对后端请求，ASP.NET MVC设置了跨域请求，实际上就相当于一个API接口的功能。
       则还有另一个项目，采用nestjs+typeorm架构的在node.js上运行，实际上只需要修改`RequestMethod.js`中的url
       拼接字符串的地址就可以了。
